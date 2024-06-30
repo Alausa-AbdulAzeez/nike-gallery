@@ -13,7 +13,9 @@ const Webcam = ({ handleClose }) => {
   useEffect(() => {
     async function getMedia() {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: {
+          facingMode: { ideal: "environment" }, // Use back camera by default
+        },
       });
       videoRef.current.srcObject = stream; // Set the video source to the stream
     }
