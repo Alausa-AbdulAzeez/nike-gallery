@@ -10,12 +10,17 @@ export const identifyObject = (image) => async (dispatch) => {
   try {
     dispatch({ type: IDENTIFY_OBJECT_REQUEST });
 
-    // Setup request headers with authentication token
+    // Setup request headers
     const config = {
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "multipart/form-data" },
     };
+
     // console.log(image);
-    const res = await axios.post(`${BASE_URL}/api/detect`, image, config);
+    const res = await axios.post(
+      `${BASE_URL}/api/detect/detect/`,
+      image,
+      config
+    );
     console.log(res);
 
     dispatch({ type: IDENTIFY_OBJECT_SUCCESS, payload: res.data });

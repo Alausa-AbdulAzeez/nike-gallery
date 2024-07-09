@@ -1,4 +1,4 @@
-export const BASE_URL = "https://nike-gallery-api.onrender.com/";
+export const BASE_URL = "https://nike-gallery-api.onrender.com";
 
 export function extractFirstErrorMessage(errors) {
   const combinedErrors = Object.values(errors).flatMap(

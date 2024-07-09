@@ -8,19 +8,14 @@ import { useDispatch } from "react-redux";
 import { identifyObject } from "../redux/actions/objectIdentificationActions";
 
 const Webcam = ({ handleClose }) => {
-  const canvasRef = useRef(null); // Reference to the canvas element
-
   const videoRef = useRef(null); // Reference to the video element
   const dispatch = useDispatch();
+  const canvasRef = useRef(null);
 
-  const [capturedImage, setCapturedImage] = useState(null);
-
-  // Function to capture an image from the webcam
+  // Function to capture an image from the video stream
   const captureImage = () => {
-    const canvas = canvasRef.current;
     const video = videoRef.current;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL("image/jpeg");
@@ -28,11 +23,14 @@ const Webcam = ({ handleClose }) => {
 
   // Function to identify object
   const identifyCapturedObject = async () => {
-    console.log("here");
-    const image = captureImage();
-    setCapturedImage(image);
     try {
-      const res = await dispatch(identifyObject(image));
+      const image = captureImage();
+      const blob = await (await fetch(image)).blob(); // Convert base64 to Blob
+
+      const formData = new FormData();
+      formData.append("image", blob, "capture.jpg");
+
+      const res = await dispatch(identifyObject(formData));
       console.log(res);
     } catch (error) {
       console.log(error);
@@ -63,10 +61,15 @@ const Webcam = ({ handleClose }) => {
             autoPlay
             className="rounded shadow-lg h-full w-full"
           ></video>
+          <canvas
+            ref={canvasRef}
+            width={350}
+            height={450}
+            // style={{ display: "none" }}
+          ></canvas>
         </div>
       </div>
-      <canvas ref={canvasRef}></canvas>
-      {/* <canvas ref={canvasRef} style={{ display: "none" }}></canvas> */}
+
       <div
         className="fixed bottom-8 shadow-custom-shadow-lg cursor-pointer hover:scale-110 hover:bg-black transition-all duration-300 translate-x-[calc(50% + 30px)] w-[60px] h-[60px] bg-offBlack rounded-full flex items-center justify-center"
         onClick={identifyCapturedObject}
