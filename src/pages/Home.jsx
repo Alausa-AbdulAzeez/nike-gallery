@@ -14,6 +14,7 @@ const Home = ({ images }) => {
   //   Function to close user modal
   const handleClose = () => {
     setIsOpen(false);
+    // getTracks().forEach((track) => track.stop());
   };
   //   End of function to close user modal
 
