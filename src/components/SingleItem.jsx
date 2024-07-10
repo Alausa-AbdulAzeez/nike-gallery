@@ -47,8 +47,8 @@ const SingleItem = ({ images }) => {
           className="w-full h-full absolute top-0 left-0  -z-10 blur-lg"
           style={headerStyle}
         ></div>
-        <div className="h-auto mt-[70px] md:mt-[30px] w-[90%] md:w[80%] max-w-[1024px] overflow-auto rounded-2xl shadow-custom-shadow-md p-4 flex flex-col gap-4">
-          <div className="flex flex-col-reverse items-center gap-4  ">
+        <div className="h-auto mt-[70px] md:mt-[30px] w-[90%] md:w[80%] max-w-[1024px] overflow-auto rounded-2xl shadow-custom-shadow-md  flex flex-col gap-4">
+          <div className="flex flex-col-reverse items-center gap-4  p-4">
             <div className="w-full pb-[8px]  flex justify-center ">
               <div
                 className={`min-w-[200px]  w-fit flex image-card-scrollbar gap-6 px-4 pb-3 overflow-x-auto`}
@@ -66,21 +66,23 @@ const SingleItem = ({ images }) => {
             />
           </div>
 
-          <div className="flex flex-col gap-1  ">
-            <div className="title-small">Title</div>
-            <p className="body-light">Lorem ipsum dolor sit</p>
-          </div>
-          <div className="flex flex-col gap-1 ">
-            <div className="title-small">Description</div>
-            <div className="body-light">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
-              mollitia illo impedit perferendis quia dignissimos omnis
-              architecto vero eius nobis.
+          <div className="p-4 bg-white">
+            <div className="flex flex-col gap-1  ">
+              <div className="title-small">Title</div>
+              <p className="body-light">Lorem ipsum dolor sit</p>
             </div>
-          </div>
-          <div className="flex flex-col gap-1">
-            <div className="title-small">Other items</div>
-            <Grid images={images} setItemIndex={setItemIndex} />
+            <div className="flex flex-col gap-1 ">
+              <div className="title-small">Description</div>
+              <div className="body-light">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit
+                mollitia illo impedit perferendis quia dignissimos omnis
+                architecto vero eius nobis.
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="title-small">Other items</div>
+              <Grid images={images} setItemIndex={setItemIndex} />
+            </div>
           </div>
         </div>
       </div>
