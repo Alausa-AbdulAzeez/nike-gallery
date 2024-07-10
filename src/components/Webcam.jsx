@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
-import { capture } from "../assets/images";
-import { useDispatch } from "react-redux";
+import { capture, captureLarge } from "../assets/images";
+import { useDispatch, useSelector } from "react-redux";
 import { identifyObject } from "../redux/actions/objectIdentificationActions";
+import LoadingComponent from "./LoadingComponent";
 
 const Webcam = ({ handleClose }) => {
   const videoRef = useRef(null); // Reference to the video element
@@ -12,6 +13,9 @@ const Webcam = ({ handleClose }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [capturedImage, setCapturedImage] = useState(null);
+
+  const identifiedObjectState = useSelector((state) => state.identifiedObject);
+  const { loading } = identifiedObjectState;
 
   // Function to capture an image from the video stream
   const captureImage = () => {
@@ -94,9 +98,7 @@ const Webcam = ({ handleClose }) => {
 
           <canvas
             ref={canvasRef}
-            width={300}
-            height={250}
-            className={`mt-[30px] rounded-md mx-auto ${
+            className={`mt-[30px] rounded-md mx-auto h-[350px] w-[300px] md:w-[300px] md:h-[250px] ${
               capturedImage ? "block" : "hidden"
             }`}
           ></canvas>
@@ -127,9 +129,13 @@ const Webcam = ({ handleClose }) => {
               />
             )}
           </div>
-
-          <h2 className="text-md font-semibold m-0">No item to show</h2>
-          <p>This is the sliding component content.</p>
+          {loading ? (
+            <LoadingComponent />
+          ) : (
+            <>
+              <h2 className="text-md font-semibold m-0">No item to show</h2>
+            </>
+          )}
         </div>
       </div>
     </div>
