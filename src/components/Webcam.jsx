@@ -11,6 +11,8 @@ const Webcam = ({ handleClose }) => {
   const streamRef = useRef(null); // Ref to store the media stream
   const [isOpen, setIsOpen] = useState(false);
 
+  const [capturedImage, setCapturedImage] = useState(null);
+
   // Function to capture an image from the video stream
   const captureImage = () => {
     const video = videoRef.current;
@@ -26,6 +28,7 @@ const Webcam = ({ handleClose }) => {
       setIsOpen(true); // Open the sliding component after capturing the image
       const image = captureImage();
       const blob = await (await fetch(image)).blob(); // Convert base64 to Blob
+      setCapturedImage(blob);
 
       const formData = new FormData();
       formData.append("image", blob, "capture.jpg");
@@ -69,9 +72,13 @@ const Webcam = ({ handleClose }) => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    console.log(capturedImage);
+  }, [capturedImage]);
+
   return (
     <div className="w-full overlay flex flex-col items-center  h-full pt-8  overflow-y-auto">
-      <div className={` mb-[470px]`}>
+      <div className={`${capturedImage ? "mb-[370px]" : "mb-[70px]"} `}>
         <div className="w-[350px] h-[450px] rounded-[16px] bg-transparent backdrop-blur-lg relative">
           <video
             ref={videoRef}
@@ -84,12 +91,14 @@ const Webcam = ({ handleClose }) => {
           >
             <img src={capture} className={`w-[20px] h-[20px] `} />
           </div>
+
           <canvas
             ref={canvasRef}
-            // width={350}
-            // height={450}
-            // style={{ display: "none" }}
-            className="mt-[30px] rounded-md mx-auto"
+            width={300}
+            height={250}
+            className={`mt-[30px] rounded-md mx-auto ${
+              capturedImage ? "block" : "hidden"
+            }`}
           ></canvas>
         </div>
       </div>
