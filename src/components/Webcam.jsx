@@ -11,11 +11,13 @@ const Webcam = ({ handleClose }) => {
   const canvasRef = useRef(null);
   const streamRef = useRef(null); // Ref to store the media stream
   const [isOpen, setIsOpen] = useState(false);
+  const [attemptedIdentification, setAttemptedIdentification] = useState(false);
 
   const [capturedImage, setCapturedImage] = useState(null);
 
   const identifiedObjectState = useSelector((state) => state.identifiedObject);
-  const { loading } = identifiedObjectState;
+  const { loading, error, item } = identifiedObjectState;
+  console.log(identifiedObjectState);
 
   // Function to capture an image from the video stream
   const captureImage = () => {
@@ -29,6 +31,7 @@ const Webcam = ({ handleClose }) => {
   // Function to identify object
   const identifyCapturedObject = async () => {
     try {
+      setAttemptedIdentification(true);
       setIsOpen(true); // Open the sliding component after capturing the image
       const image = captureImage();
       const blob = await (await fetch(image)).blob(); // Convert base64 to Blob
@@ -134,6 +137,16 @@ const Webcam = ({ handleClose }) => {
           ) : (
             <>
               <h2 className="text-md font-semibold m-0">No item to show</h2>
+              {!loading && attemptedIdentification && item?.Message && (
+                <p className="text-center">
+                  {" "}
+                  {item?.Message === "No detection" &&
+                    "Couldn't identify image"}
+                </p>
+              )}
+              {!loading && attemptedIdentification && error && (
+                <p className="text-center text-red-600">Error: {error}</p>
+              )}
             </>
           )}
         </div>
