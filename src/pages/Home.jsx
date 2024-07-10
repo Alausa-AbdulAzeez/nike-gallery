@@ -25,7 +25,7 @@ const Home = ({ images }) => {
   // End of functioon to handle webcam pop up
   console.log(isOpen);
   return (
-    <div className={`flex flex-col items-center`}>
+    <div className={`flex flex-col items-center w-full`}>
       <Overlay isOpen={isOpen} onClose={handleClose}>
         <Webcam handleClose={handleClose} />
       </Overlay>
